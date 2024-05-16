@@ -1,7 +1,9 @@
 import 'dart:core';
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart' hide Image;
 import 'package:flutter_pos_printer_platform/printer.dart';
+// import 'package:image/image.dart';
 import 'package:image/image.dart' hide ImageData;
 
 import '../utils.dart';
@@ -183,8 +185,8 @@ class TsplPrinter<T> extends GenericPrinter<T> {
 
   @override
   Future<bool> image(Uint8List image, {int threshold = 150}) async {
-    final decodedImage = decodeImage(image)!;
-    final rasterizeImage = _toRaster(decodedImage, dpi: int.parse(dpi));
+    final decodedImage = await decodeImageFromList(image)!;
+    final rasterizeImage = _toRaster(decodedImage as Image, dpi: int.parse(dpi));
     final converted = toPixel(ImageData(width: decodedImage.width, height: decodedImage.height),
         paperWidth: int.parse(_sizeWidth), dpi: int.parse(dpi), isTspl: true);
 
